@@ -4,7 +4,7 @@ public class Account {
     private long id;
     private double balance = 0.0;
     private double interestRate = 0.01;
-    private Customer customer;
+    private String customerId;
 
     private double fee; //simple: only 1 fee level for all transaction
 
@@ -13,17 +13,10 @@ public class Account {
 //    private List<Saving> savings;
 
 
-    public Account(long id, Customer customer) {
+    public Account(long id, String customerId) {
         this.id = id;
-        this.customer = customer;
+        this.customerId = customerId;
     }
-
-//    public Account(long id, double balance, double interestRate, Customer customer) {
-//        this.id = id;
-//        this.balance = balance;
-//        this.interestRate = interestRate;
-//        this.customer = customer;
-//    }
 
     //getter
     public long getId() {
@@ -38,8 +31,8 @@ public class Account {
         return interestRate;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public String getCustomerId() {
+        return customerId;
     }
 
     //setter
@@ -55,8 +48,8 @@ public class Account {
         this.interestRate = interestRate;
     }
 
-    public void setCustomer(String customer) {
-        customer = customer;
+    public void setCustomerId(String customerId) {
+        customerId = customerId;
     }
 
     private void changeBalance(double amount) {
@@ -92,8 +85,8 @@ public class Account {
     //TODO: data structure to link account and customer
     public void showDetails() {
         System.out.println("id: " + id
-                + ", owner: " + customer.getLastName() + " " + customer.getFirstName()
                 + ", balance: " + balance);
+                //+ ", owner: " + customer.getLastName() + " " + customer.getFirstName()
     }
 
     //TODO: delete() should be in Account or Bank
