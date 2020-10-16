@@ -1,9 +1,6 @@
 package com.SonHoang;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.Assert.assertThat;
 
@@ -12,16 +9,16 @@ public class App {
 //        System.out.println("End course project");
 
         Bank b1 = new Bank("ABC", "HN");
-
+        b1.go();
 //        b1.logIn();
         List<Account> accounts = new ArrayList<>();
         List<Customer> customers = new ArrayList<>();
         Map<String, String> userDatas = new HashMap<>();
 
-        Customer c1 = new Customer("172645991", "Son", "Hoang Thanh", "16/06/1988", "HBT, HN", "htsondk251@gmail.com", "0984964197");
-        Customer c2 = new Customer("172645910", "Dzung", "Hoang Thi", "16/06/1986", "HBT, HN", "dzunghoang.n21@gmail.com", "0919581286");
-        Customer c3 = new Customer("172645912", "Hanh", "Tran Minh", "16/06/1997", "HBT, HN", "bighero6@gmail.com", "0344592834");
-        Customer c4 = new Customer("172645913", "Minh", "Tran Nguyet", "16/06/1993", "HBT, HN", "nguyetminhbs93@gmail.com", "0335198726");
+        Customer c1 = new Customer("172645991", "Hoang Thanh Son", "16/06/1988", "HBT, HN", "htsondk251@gmail.com", "0984964197");
+        Customer c2 = new Customer("172645910", "Hoang Thi Dzung", "16/06/1986", "HBT, HN", "dzunghoang.n21@gmail.com", "0919581286");
+        Customer c3 = new Customer("172645912", "Tran Minh Hanh", "16/06/1997", "HBT, HN", "bighero6@gmail.com", "0344592834");
+        Customer c4 = new Customer("172645913", "Tran Nguyet Minh", "16/06/1993", "HBT, HN", "nguyetminhbs93@gmail.com", "0335198726");
         customers.add(c1);
         customers.add(c2);
         customers.add(c3);
@@ -53,7 +50,7 @@ public class App {
         b1.getAccounts().get(0).addValue(50.0);
 //        System.out.println(b1.getAccounts().get(0).getBalance());
 
-        b1.go();
+//        b1.go();
 
     }
 

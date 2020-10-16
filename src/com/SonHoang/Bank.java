@@ -1,14 +1,12 @@
 package com.SonHoang;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class Bank {
     private String name, address;
-    private List<Account> accounts;
-    private List<Customer> customers;
-    private Map<String, String> userDatas;
+    private List<Account> accounts = new ArrayList<>();
+    private List<Customer> customers = new ArrayList<>();
+    private Map<String, String> userDatas = new HashMap<>();
 
     public Bank(String name, String address) {
         this.name = name;
@@ -57,13 +55,15 @@ public class Bank {
         int choice = 0;
         boolean do1 = false;
         Scanner in = new Scanner(System.in);
-
         do {
             showMenuHomepage();
             choice = verifyInputNumber(in, 2);
             switch(choice) {
                 case 1:
-                    openAccount();
+                    Customer c = inputCustomerInfo();
+                    if (c != null) {
+                        openAccount(c);
+                    }
                     break;
                 case 2:
                     if (logIn()) {
@@ -79,26 +79,24 @@ public class Bank {
 
     public void selectInAccountPage() {
         //todo: consider initialize in only 1 methods and transfer or initialize in every methods
-//        String input="";
         int choice;
         boolean do1 = false;
         Scanner in = new Scanner(System.in);
-
         do {
             showMenuAccountPage();
             choice = verifyInputNumber(in, 4);
             switch(choice) {
                 case 1:
-                    System.out.println("Deposit money");
+                    System.out.println("Transfer money");
                     break;
                 case 2:
-                    System.out.println("Withdraw money");
+                    System.out.println("Open saving");
                     break;
                 case 3:
-                    System.out.println("Close account");
+                    System.out.println("Open card");
                     break;
                 case 4:
-                    System.out.println("Open saving");
+                    System.out.println("Close account");
                     break;
                 case 0:
                     do1 = true;
@@ -111,14 +109,13 @@ public class Bank {
         String email, password;
         int failTimes = 0, input;
         boolean success = false;
+        Scanner in = new Scanner(System.in);
         while(true) {
-            Scanner in = new Scanner(System.in);
             System.out.println("enter the email");
             //todo: pre-process input data
             email = in.nextLine();
             System.out.println("enter the password");
             password = in.nextLine();
-
             try {
                 if (verifyAccount(email, password)) {
                     System.out.println("login successfully");
@@ -133,9 +130,8 @@ public class Bank {
                 System.out.print("Forgot password? do you want to reset password? (y/n) ");
                 input = verifyInputYN(in);
                 if (1 == input) {
-//                    success = true;
                     break;
-                } else {
+                } else if (0 == input){
                     failTimes = 0;
                 }
             }
@@ -153,6 +149,20 @@ public class Bank {
         return success;
     }
 
+    public Account openAccount(Customer customer) {
+        //todo: generate unique accountNumber
+        long id = new Date().getTime();
+        Account account = new Account(id, customer.getId());
+        System.out.println("Account created. Please set the password");
+        Scanner in = new Scanner(System.in);
+        //todo: verify requirements of password
+        String password = in.nextLine();
+        userDatas.put(customer.getEmail(), password);
+        accounts.add(account);
+        return account;
+    }
+
+    //todo: separate to Utility package
     public Account getAccount(String email) {
 //        long accountNumber;
         String customerId = "";
@@ -193,8 +203,6 @@ public class Bank {
         return isCompleted;
     }
 
-    //main utility methods
-
     public int verifyInputNumber(Scanner in, int caseNumber) {
         String input;
         int choice;
@@ -226,7 +234,6 @@ public class Bank {
         }
     }
 
-    //todo: test again
     private boolean isNumber(String s) {
         if(s != "") {
             for (int i = 0; i < s.length(); i++) {
@@ -248,21 +255,41 @@ public class Bank {
     public void showMenuAccountPage() {
         System.out.println("Please select the service");
         System.out.println("-----------------------------------");
-        System.out.println("1. Deposit money");
-        System.out.println("2. Withdraw money");
-        System.out.println("3. Close account");
-        System.out.println("4. Open saving");
+        System.out.println("1. Transfer money");
+        System.out.println("2. Open saving");
+        System.out.println("3. Open card");
+        System.out.println("4. Close account");
         System.out.println("0. Quit");
         System.out.println("-----------------------------------");
     }
 
-    public void openAccount() {
-        String input;
+    public Customer inputCustomerInfo() {
         Scanner in = new Scanner(System.in);
-        System.out.println("enter the name");
+        String input;
+        int choice;
+        Customer c = new Customer();
+        System.out.println("enter the full name");
         input = in.nextLine();
+        c.setFullName(input);
+        System.out.println("enter the email");
+        input = in.nextLine();
+        c.setEmail(input);
+        //...
 
-
+        Account acc = getAccount(c.getEmail());
+        if (null != acc) {
+            System.out.println("Account existed. Do you want to try reset password? (y/n)");
+            choice = verifyInputYN(in);
+            if (1 == choice) {
+                resetPassword();
+            } else if (0 == choice) {
+                logIn();
+            }
+            return null;
+        } else {
+            System.out.println("We recorded the information. Result will be informed to you asap");
+            return c;
+        }
     }
 }
 
