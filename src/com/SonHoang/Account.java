@@ -7,16 +7,15 @@ public class Account {
     private String customerId;
 
     //todo: change to multiple types of fee
-    private double fee; //simple: only 1 fee level for all transaction
+    private double fee = 0.01; //simple: only 1 fee level for all transaction
 
-    //in-future characteristics
+    //todo: future characteristics
 //    private List<Card> cards;
 //    private List<Saving> savings;
 
 
-    public Account(long id, String customerId) {
-        //todo: change to automatically generate unique id
-        this.accountNumber = id;
+    public Account(long accountNumber, String customerId) {
+        this.accountNumber = accountNumber;
         this.customerId = customerId;
     }
 
@@ -59,13 +58,12 @@ public class Account {
     }
 
     public void subValue(double amount) throws IllegalArgumentException {
-//        boolean isCompleted = false;
         //check if balance enough to deduct
         if (balance < (amount + fee)) {
             throw new IllegalArgumentException("not enough money");
         } else {
             //changeBalance
-            changeBalance(-amount - fee);
+            changeBalance(- amount - fee);
 //            isCompleted = true;
         }
 //        return isCompleted;
@@ -91,8 +89,7 @@ public class Account {
                 //+ ", owner: " + customer.getLastName() + " " + customer.getFirstName()
     }
 
-    //TODO: delete() should be in Account or Bank
-    public void delete() {}
+    public void closeAccount() {}
 
 
 }

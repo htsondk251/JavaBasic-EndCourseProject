@@ -21,13 +21,13 @@ public class AppTest {
 
     @Before
     public void setUp() throws Exception {
-        Customer c1 = new Customer("172645991", "Son", "Hoang Thanh", "16/06/1988", "HBT, HN", "htsondk251@gmail.com", "0984964197");
+        Customer c1 = new Customer("172645991", "Hoang Thanh Son", "16/06/1988", "HBT, HN", "htsondk251@gmail.com", "0984964197");
         customers.add(c1);
-        Customer c2 = new Customer("172645910", "Dzung", "Hoang Thi", "16/06/1986", "HBT, HN", "dzunghoang.n21@gmail.com", "0919581286");
+        Customer c2 = new Customer("172645910", "Hoang Thi Dzung", "16/06/1986", "HBT, HN", "dzunghoang.n21@gmail.com", "0919581286");
         customers.add(c2);
-        Customer c3 = new Customer("172645912", "Hanh", "Tran Minh", "16/06/1997", "HBT, HN", "bighero6@gmail.com", "0344592834");
+        Customer c3 = new Customer("172645912", "Tran Minh Hanh", "16/06/1997", "HBT, HN", "bighero6@gmail.com", "0344592834");
         customers.add(c3);
-        Customer c4 = new Customer("172645913", "Minh", "Tran Nguyet", "16/06/1993", "HBT, HN", "nguyetminhbs93@gmail.com", "0335198726");
+        Customer c4 = new Customer("172645913", "Tran Nguyet Minh", "16/06/1993", "HBT, HN", "nguyetminhbs93@gmail.com", "0335198726");
         customers.add(c4);
         b1.setCustomers(customers);
 
