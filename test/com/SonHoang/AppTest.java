@@ -29,6 +29,7 @@ public class AppTest {
         customers.add(c3);
         Customer c4 = new Customer("172645913", "Minh", "Tran Nguyet", "16/06/1993", "HBT, HN", "nguyetminhbs93@gmail.com", "0335198726");
         customers.add(c4);
+        b1.setCustomers(customers);
 
         Account a1 = new Account(3805449019l, c1.getId());
         accounts.add(a1);
@@ -86,8 +87,14 @@ public class AppTest {
 
     @Test
     public void testCheckValidity() {
-        b1.checkValidity("htsondk251@gmail.com", "#123456");
-        assertThrows("email not exist", IllegalArgumentException.class, () -> b1.checkValidity("htsondk251@gmail.com", "#123456#"));
-        assertThrows("password not correct", IllegalArgumentException.class, () -> b1.checkValidity("htsondk251@gmail.co", "#123456"));
+        b1.verifyAccount("htsondk251@gmail.com", "#123456");
+        assertThrows("email not exist", IllegalArgumentException.class, () -> b1.verifyAccount("htsondk251@gmail.com", "#123456#"));
+        assertThrows("password not correct", IllegalArgumentException.class, () -> b1.verifyAccount("htsondk251@gmail.co", "#123456"));
+    }
+
+    @Test
+    public void testGetAccount() {
+        assertEquals(b1.getAccount("htsondk251@gmail.com").getAccountNumber(), 3805449019L);
+        assertEquals(b1.getAccount("htsondk251@gmail.co") == null, true);
     }
 }

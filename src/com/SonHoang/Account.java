@@ -1,11 +1,12 @@
 package com.SonHoang;
 
 public class Account {
-    private long id;
+    private long accountNumber;
     private double balance = 0.0;
     private double interestRate = 0.01;
     private String customerId;
 
+    //todo: change to multiple types of fee
     private double fee; //simple: only 1 fee level for all transaction
 
     //in-future characteristics
@@ -14,13 +15,14 @@ public class Account {
 
 
     public Account(long id, String customerId) {
-        this.id = id;
+        //todo: change to automatically generate unique id
+        this.accountNumber = id;
         this.customerId = customerId;
     }
 
     //getter
-    public long getId() {
-        return id;
+    public long getAccountNumber() {
+        return accountNumber;
     }
 
     public double getBalance() {
@@ -36,8 +38,8 @@ public class Account {
     }
 
     //setter
-    public void setId(long id) {
-        this.id = id;
+    public void setAccountNumber(long accountNumber) {
+        this.accountNumber = accountNumber;
     }
 
     public void setBalance(double balance) {
@@ -84,7 +86,7 @@ public class Account {
 
     //TODO: data structure to link account and customer
     public void showDetails() {
-        System.out.println("id: " + id
+        System.out.println("id: " + accountNumber
                 + ", balance: " + balance);
                 //+ ", owner: " + customer.getLastName() + " " + customer.getFirstName()
     }
