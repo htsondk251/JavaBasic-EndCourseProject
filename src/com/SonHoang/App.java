@@ -9,7 +9,7 @@ public class App {
 //        System.out.println("End course project");
 
         Bank b1 = new Bank("ABC", "HN");
-        b1.go();
+//        b1.go();
 //        b1.logIn();
         List<Account> accounts = new ArrayList<>();
         List<Customer> customers = new ArrayList<>();
@@ -50,7 +50,7 @@ public class App {
         b1.getAccounts().get(0).addValue(50.0);
 //        System.out.println(b1.getAccounts().get(0).getBalance());
 
-//        b1.go();
+        b1.go();
 
     }
 

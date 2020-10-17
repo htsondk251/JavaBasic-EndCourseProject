@@ -36,6 +36,10 @@ public class Account {
         return customerId;
     }
 
+    public double getFee() {
+        return fee;
+    }
+
     //setter
     public void setAccountNumber(long accountNumber) {
         this.accountNumber = accountNumber;
@@ -55,6 +59,10 @@ public class Account {
 
     private void changeBalance(double amount) {
         setBalance(balance + amount);
+    }
+
+    public void setFee(double fee) {
+        this.fee = fee;
     }
 
     public void subValue(double amount) throws IllegalArgumentException {
@@ -90,6 +98,20 @@ public class Account {
     }
 
     public void closeAccount() {}
-
-
 }
+
+//todo: transferMoney() in Account ??
+//    public boolean transferMoney(long destinationAccountNumber, double amount) throws IllegalArgumentException {
+//        if (amount <= 0 ) {
+//            throw new IllegalArgumentException("amount must be positive");
+//        }
+//        Account destinationAccount = getAccountFromAccountNumber(destinationAccountNumber);
+//        try {
+//            this.subValue(amount + this.getFee());
+//            destinationAccount.addValue(amount);
+//            return true;
+//        } catch(IllegalArgumentException e) {
+//            e.getMessage();
+//            return false;
+//        }
+//    }

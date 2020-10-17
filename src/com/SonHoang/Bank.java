@@ -66,8 +66,9 @@ public class Bank {
                     }
                     break;
                 case 2:
-                    if (logIn()) {
-                        selectInAccountPage();
+                    Account account = logIn();
+                    if (null != account) {
+                        selectInAccountPage(account);
                     }
                     break;
                 case 0:
@@ -77,7 +78,7 @@ public class Bank {
         } while(!do1);
     }
 
-    public void selectInAccountPage() {
+    public void selectInAccountPage(Account sourceAccount) {
         //todo: consider initialize in only 1 methods and transfer or initialize in every methods
         int choice;
         boolean do1 = false;
@@ -87,7 +88,8 @@ public class Bank {
             choice = verifyInputNumber(in, 4);
             switch(choice) {
                 case 1:
-                    System.out.println("Transfer money");
+                    transferMoneyProcess(sourceAccount);
+//                    System.out.println("Transfer money");
                     break;
                 case 2:
                     System.out.println("Open saving");
@@ -105,14 +107,15 @@ public class Bank {
         } while(!do1);
     }
 
-    public boolean logIn() {
+    public Account logIn() {
         String email, password;
         int failTimes = 0, input;
         boolean success = false;
+        Account account = null;
         Scanner in = new Scanner(System.in);
         while(true) {
             System.out.println("enter the email");
-            //todo: pre-process input data
+            //todo: validate input data
             email = in.nextLine();
             System.out.println("enter the password");
             password = in.nextLine();
@@ -137,16 +140,53 @@ public class Bank {
             }
         }
         if (success == true) {
-            Account acc = getAccount(email);
+            account = getAccountFromEmail(email);
             //todo: handle the case of account not available ??
-            if (acc != null) {
-                acc.showDetails();
+            if (account != null) {
+                account.showDetails();
             }
         }
         else {
             resetPassword();
         }
-        return success;
+//        return success;
+        return account;
+    }
+
+    public void transferMoneyProcess(Account sourceAccount) {
+        String input;
+        Scanner in = new Scanner(System.in);
+        long destination;
+        double amount;
+        System.out.print("enter the destination Account: ");
+        //todo: validate the input data
+        input = in.nextLine();
+        destination = Long.parseLong(input);
+        System.out.print("enter the amount of money: ");
+        amount = verifyInputDouble(in);
+        try {
+            if(transferMoney(sourceAccount.getAccountNumber(), destination, amount)) {
+                System.out.println("success");
+            }
+        } catch (IllegalArgumentException e) {
+            e.getMessage();
+        }
+    }
+
+    public boolean transferMoney(long sourceAccountNumber, long destinationAccountNumber, double amount) throws IllegalArgumentException {
+        if (amount <= 0 ) {
+            throw new IllegalArgumentException("amount must be positive, minimum 5.0$");
+        }
+        Account sourceAccount = getAccountFromAccountNumber(sourceAccountNumber);
+        Account destinationAccount = getAccountFromAccountNumber(destinationAccountNumber);
+        try {
+            sourceAccount.subValue(amount + sourceAccount.getFee());
+            destinationAccount.addValue(amount);
+            return true;
+        } catch(IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
     }
 
     public Account openAccount(Customer customer) {
@@ -163,8 +203,7 @@ public class Bank {
     }
 
     //todo: separate to Utility package
-    public Account getAccount(String email) {
-//        long accountNumber;
+    public Account getAccountFromEmail(String email) {
         String customerId = "";
         for (Customer c : customers) {
             if (email.equals(c.getEmail())) {
@@ -175,6 +214,15 @@ public class Bank {
         //todo: handle the case of email not available ??
         for (Account acc : accounts) {
             if (customerId.equals(acc.getCustomerId())) {
+                return acc;
+            }
+        }
+        return null;
+    }
+
+    public Account getAccountFromAccountNumber(long accountNumber) {
+        for (Account acc : accounts) {
+            if (accountNumber == acc.getAccountNumber()) {
                 return acc;
             }
         }
@@ -219,6 +267,21 @@ public class Bank {
         return choice;
     }
 
+    public double verifyInputDouble(Scanner in) {
+        String input;
+        double choice;
+        while(true) {
+            input = in.nextLine();
+            input = input.trim();
+            if (input.isEmpty() || (!isNumber(input)) || (isNumber(input) && (Double.parseDouble(input) <= 5.0))) {
+                System.out.println("enter positive number, minimum 5.0$");
+            } else {
+                break;
+            }
+        }
+        choice = Double.parseDouble(input);
+        return choice;
+    }
     public int verifyInputYN(Scanner in) {
         String input;
         while(true) {
@@ -263,7 +326,7 @@ public class Bank {
         System.out.println("-----------------------------------");
     }
 
-    public Customer inputCustomerInfo() {
+    public Customer inputCustomerInfo()  {
         Scanner in = new Scanner(System.in);
         String input;
         int choice;
@@ -275,14 +338,14 @@ public class Bank {
         input = in.nextLine();
         c.setEmail(input);
         //...
-
-        Account acc = getAccount(c.getEmail());
+        Account acc = getAccountFromEmail(c.getEmail());
         if (null != acc) {
             System.out.println("Account existed. Do you want to try reset password? (y/n)");
             choice = verifyInputYN(in);
             if (1 == choice) {
                 resetPassword();
             } else if (0 == choice) {
+                System.out.println("Try log in again.");
                 logIn();
             }
             return null;
