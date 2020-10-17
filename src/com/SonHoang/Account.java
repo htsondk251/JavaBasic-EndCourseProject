@@ -2,14 +2,14 @@ package com.SonHoang;
 
 public class Account {
     private long accountNumber;
-    private double balance = 0.0;
+    private double balance = 50.0;
     private double interestRate = 0.01;
     private String customerId;
 
     //todo: change to multiple types of fee
     private double fee = 0.01; //simple: only 1 fee level for all transaction
 
-    //todo: future characteristics
+    //todo: open cards, open savings
 //    private List<Card> cards;
 //    private List<Saving> savings;
 
@@ -90,11 +90,9 @@ public class Account {
         setBalance(balance + calculateMonthlyInterest());
     }
 
-    //TODO: data structure to link account and customer
     public void showDetails() {
         System.out.println("id: " + accountNumber
                 + ", balance: " + balance);
-                //+ ", owner: " + customer.getLastName() + " " + customer.getFirstName()
     }
 
     public void closeAccount() {}

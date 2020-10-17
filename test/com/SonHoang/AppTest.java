@@ -17,6 +17,8 @@ public class AppTest {
     List<Account> accounts = new ArrayList<>();
     List<Customer> customers = new ArrayList<>();
     Map<String, String> userDatas = new HashMap<>();
+    String fakeEmail = "htsondk251@mail.com";
+    long fakeAccountNumber = 3805449018l;
 //    b1.setAccounts(accounts);
 
     @Before
@@ -95,9 +97,16 @@ public class AppTest {
     }
 
     @Test
+    public void testLogIn() {
+        assertTrue(b1.logIn("htsondk251@gmail.com", "#123456"));
+        assertFalse(b1.logIn(fakeEmail, "#123456"));
+    }
+
+    @Test
     public void testTransferMoney() {
+        assertThrows("not enough money", IllegalArgumentException.class, () -> b1.transferMoney(b1.getAccounts().get(0).getAccountNumber(), b1.getAccounts().get(1).getAccountNumber(), -60.0));
+        assertThrows("false destination account number", IllegalArgumentException.class, () -> b1.transferMoney(b1.getAccounts().get(0).getAccountNumber(), fakeAccountNumber, 60.0));
         assertThrows(IllegalArgumentException.class, () -> b1.transferMoney(b1.getAccounts().get(0).getAccountNumber(), b1.getAccounts().get(1).getAccountNumber(), -60.0));
-        assertFalse(b1.transferMoney(b1.getAccounts().get(0).getAccountNumber(), b1.getAccounts().get(1).getAccountNumber(), 60.0));
         assertTrue(b1.transferMoney(b1.getAccounts().get(0).getAccountNumber(), b1.getAccounts().get(1).getAccountNumber(), 30.0));
         assertFalse(b1.transferMoney(b1.getAccounts().get(0).getAccountNumber(), b1.getAccounts().get(1).getAccountNumber(), 30.0));
         assertThat(b1.getAccounts().get(1).getBalance(), closeTo(30.0, 0.0));
