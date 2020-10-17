@@ -57,12 +57,12 @@ public class Account {
         customerId = customerId;
     }
 
-    private void changeBalance(double amount) {
-        setBalance(balance + amount);
-    }
-
     public void setFee(double fee) {
         this.fee = fee;
+    }
+
+    private void changeBalance(double amount) {
+        setBalance(balance + amount);
     }
 
     public void subValue(double amount) throws IllegalArgumentException {
@@ -78,7 +78,7 @@ public class Account {
     }
 
     public void addValue(double amount) {
-        changeBalance(balance + amount);
+        changeBalance(amount);
     }
 
     private double calculateMonthlyInterest() {
